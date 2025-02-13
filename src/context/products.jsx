@@ -1,0 +1,53 @@
+import { useEffect, createContext, useState } from "react";
+
+export const ProductContext = createContext();
+
+
+export const ProductProvider = ({ children }) => {
+
+    const [products, setProducts] = useState([]);
+    const fetchProducts = () => {
+        const localEndpoint = './products.json';
+        const apiEndpoint = 'https://api.escuelajs.co/api/v1/products';
+        fetch(localEndpoint)
+            .then(res => res.json())
+            .then(data => {
+                setProducts(data); // Update the product list
+            });
+    };
+
+    const sortPriceAscending = () => {
+        setProducts((products) => products.toSorted((a,b) => a.price - b.price));
+    }
+
+    const sortPriceDescending = () => {
+        setProducts((products) => products.toSorted((a,b) => b.price - a.price));
+    }
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const response = await fetch('/products.json');
+            const data = await response.json();
+            setProducts(data);
+        };
+    
+        fetchProducts();
+    }, []);
+
+    return (
+        <ProductContext.Provider
+          value={{
+            products,
+            setProducts,
+            sortPriceAscending,
+            sortPriceDescending,
+            fetchProducts
+          }}
+        >
+          {children}
+        </ProductContext.Provider>
+      );
+
+}
+

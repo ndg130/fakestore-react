@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.similarProductsSlider {
+    height: 350px;
+}
+
+.similarProductsSlider .swiper-slide {
+    height: 300px;
+}
+
+.similarProductsSlider .swiper-pagination-bullet {
+    height: 12px;
+    width: 12px;
+}
+
+@media screen and (min-width: 480px) {
+    .similarProductsSlider {
+        height: 400px;
+    }
+    
+    .similarProductsSlider .swiper-slide {
+        height: 350px;
+    }
+}
+
+@media screen and (min-width: 580px) {
+    .similarProductsSlider {
+        height: 450px;
+    }
+    
+    .similarProductsSlider .swiper-slide {
+        height: 400px;
+    }
+}
+
+@media screen and (min-width: 640px) {
+    .similarProductsSlider {
+        height: 400px;
+    }
+    
+    .similarProductsSlider .swiper-slide {
+        height: 350px;
+    }
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #714329 !important;
+}
