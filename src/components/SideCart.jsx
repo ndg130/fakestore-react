@@ -9,7 +9,7 @@ export default function SideCart() {
     const { cartItems, removeFromCart, getCartQuantity, sideCartOpen, toggleSideCart, getCartValue } = useContext(CartContext);
 
     return (
-        <div className={`z-40 h-full w-9/10 md:w-[400px] fixed right-0 top-0 bottom-0 bg-theme-50 border-l-2 border-solid border-gray-30 font-regular flex flex-col justify-between transition-transform duration-500 ease-linear transform ${sideCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`z-[9999] h-full w-9/10 md:w-[400px] fixed right-0 top-0 bottom-0 bg-theme-50 border-l-2 border-solid border-gray-30 font-regular flex flex-col justify-between transition-transform duration-500 ease-linear transform ${sideCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
             <div className='overflow-y-auto'>
                 <div className='flex justify-between p-4 pl-8 border-b border-solid border-theme-dark'>
                     <div className='flex items-center gap-x-1'>

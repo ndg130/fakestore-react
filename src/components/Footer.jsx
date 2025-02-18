@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function Footer() {
+
+    const withoutFooterRoutes = ["/dashboard"];
+    const { pathname } = useLocation();
+
+    if (withoutFooterRoutes.some((item)=> pathname.includes(item))) return null;
+
+
     return (
         <footer className="bg-theme-100 text-white">
             <div className="mx-auto max-w-7xl overflow-hidden px-6 py-12 sm:py-16 lg:px-8">
                 <nav className="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6" aria-label="Footer">
                 <Link to="/" className="text-white hover:text-theme-100">Home</Link>
                 <Link to="/products" className=" hover:text-theme-100">Products</Link>
-                <Link to="/product-admin" className=" hover:text-theme-100">Product Admin</Link>
+                <Link to="/dashboard" className=" hover:text-theme-100">Admin</Link>
                 </nav>
 {/*                 <div className="mt-16 flex justify-center gap-x-10">
                 <a href="#" className="text-gray-600 hover:text-gray-800">
