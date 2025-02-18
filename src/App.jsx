@@ -12,6 +12,10 @@ import ProductAdmin from './pages/ProductAdmin'
 import CategoryPage from './pages/CategoryPage'
 import Checkout from './pages/Checkout'
 import Dashboard from './pages/Dashboard'
+import AdminProducts from './pages/Admin/AdminProducts'
+import AdminOrders from './pages/Admin/AdminOrders'
+import NotFound from './pages/NotFound'
+import AdminSingleOrder from './pages/Admin/AdminSingleOrder'
 function App() {
 
     useEffect(() => {
@@ -25,6 +29,8 @@ function App() {
                 <SideCart/>
                 <main className='pb-10 font-regular min-h-[calc(100vh-100px)]'>
                     <Routes>
+                        <Route path='*' element={<NotFound />} />
+
                         <Route path="/" element={<HomePage />} />
                         <Route path="/products" element={<ProductsPage />} />
                         <Route 
@@ -38,6 +44,9 @@ function App() {
                         <Route path="/basket" element={<Basket />} />
                         <Route path='/checkout' element={<Checkout />} />
                         <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/dashboard/products' element={<AdminProducts />} />
+                        <Route path='/dashboard/orders' element={<AdminOrders />} />
+                        <Route path='/dashboard/orders/:id' element={<AdminSingleOrder />} />
                         <Route path="/product-admin" element={<ProductAdmin />} />
                     </Routes>                
                 </main>      

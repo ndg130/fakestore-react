@@ -8,7 +8,7 @@ import { ProductContext } from '../context/products';
 
 export default function NavBar() {
 
-    const withoutSidebarRoutes = ["/dashboard"];
+    const withoutNavbarRoutes = ["/dashboard"];
     const { pathname } = useLocation();
 
     const { products } = useContext(ProductContext);
@@ -52,7 +52,7 @@ export default function NavBar() {
 
     }, [searchTerm])
 
-    if (withoutSidebarRoutes.some((item)=> pathname.includes(item))) return null;
+    if (withoutNavbarRoutes.some((item)=> pathname.includes(item))) return null;
 
     return (
         <>
@@ -123,7 +123,7 @@ export default function NavBar() {
                     </div>
                 </div>                
             </div>
-            <div className='bg-theme-blue font-regular text-white block lg:hidden'>
+            <div className='bg-theme-blue font-regular text-white block lg:hidden z-[1000]'>
                 <div className='max-w-7xl mx-auto flex justify-between py-3 px-4 items-center'>
                     <div className='w-1/5 h-full'>
                         <button 
@@ -184,7 +184,7 @@ export default function NavBar() {
                     </div>
                 </div>  
                 <div 
-                    className={`fixed right-0 top-0 bottom-0 w-9/10 bg-gray-100 z-100 p-4 pt-20 transform transition-transform duration-300 ease-linear ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                    className={`fixed right-0 top-0 bottom-0 w-[300px] md:w-[300px] bg-gray-100 z-[1000] p-4 pt-20 transform transition-transform duration-300 ease-linear ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
                 >
                     <button 
                         className='cursor-pointer flex items-center justify-center rounded-full absolute top-2 right-2'

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function HeroBanner({ mobileImage, desktopImage, header }) {
   return (
-    <section className='relative'>
+    <section className='relative z-10'>
         <img className="block md:hidden" src={`${mobileImage}`}/>
         <img className="hidden md:block" src={`${desktopImage}`}/>
         <div className='absolute inset-0 w-full h-full bg-theme-800/25'>
