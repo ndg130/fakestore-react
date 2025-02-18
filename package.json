@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "products-server": "json-server --watch ./public/products.json --port 4000",
+    "orders-server": "json-server --watch ./public/orders.json --port 4001"
+
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -15,6 +18,7 @@
     "react-icons": "^5.4.0",
     "react-router": "^7.1.5",
     "react-router-dom": "^6.29.0",
+    "react-spinners": "^0.15.0",
     "swiper": "^11.2.3"
   },
   "devDependencies": {

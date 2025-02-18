@@ -3,7 +3,7 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import ProductCard from '../components/ProductCard';
 
 import { ProductContext } from '../context/products';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 export default function CategoryPage() {
 
     const { id, title } = useParams();

@@ -39,7 +39,7 @@ export default function SimilarProducts() {
     return (
         <section className='col-span-2 mt-20 bg-none'>
             <div className='max-w-7xl mx-auto py-5'>
-                <h2 className='text-2xl md:text-3xl lg:text-4xl font-semibold text-theme-dark mb-10'>Similar products you may be interested in</h2>
+                <h2 className='text-2xl md:text-3xl lg:text-4xl font-semibold text-theme-900 mb-10'>Similar products you may be interested in</h2>
                 {isLoading && (
                     <p>Loading similar products...</p>
                 )}
@@ -71,7 +71,7 @@ export default function SimilarProducts() {
                         className='similarProductsSlider aspect-square w-full object-cover group-hover:opacity-75'
                     >
                     {similarProducts.map((product, index) => (
-                        <SwiperSlide key={index} className='bg-gray-100 rounded-lg border-2 border-solid border-theme-blue overflow-hidden h-[400px] md:h-[300px]'>
+                        <SwiperSlide key={index} className='bg-gray-100 rounded-lg border-2 border-solid border-theme-100 overflow-hidden h-[400px] md:h-[300px]'>
                             <Link to={`/products/${product.id}`} className=''>
                                 <img className="bg-gray-100" src={product.images[0]} alt={product.title} />
                                 <div className='px-2 pt-2 min-h-[100px]'>

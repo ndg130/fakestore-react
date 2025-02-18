@@ -3,6 +3,7 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import { CartContext } from '../context/cart';
 import { HiMiniMinus, HiMiniPlus } from "react-icons/hi2";
 import { HiMiniXMark } from "react-icons/hi2";
+import { Link } from 'react-router-dom';
 
 export default function Basket() {
 
@@ -10,7 +11,7 @@ export default function Basket() {
 
     return (
         <>
-            <BreadCrumbs items={[{label: 'Home', href: '/'}, {label: 'Checkout'}]} />
+            <BreadCrumbs items={[{label: 'Home', href: '/'}, {label: 'Basket'}]} />
             <div className='px-4 py-10 max-w-2xl lg:max-w-6xl mx-auto'>
                 <h1 className='text-2xl font-semibold mb-5 text-theme-900'>Your Basket</h1>
                 <div className='grid lg:grid-cols-5 gap-5'>
@@ -71,6 +72,9 @@ export default function Basket() {
                             <div className='flex justify-between text-xl border-t border-b border-solid border-gray-200 py-2 mt-2 font-bold'>
                                 <span>Total:</span>
                                 <span>£{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)}</span>
+                            </div>
+                            <div className='flex justify-end text-xl py-2 mt-2 font-bold'>
+                                <Link to={`/checkout`} className='bg-theme-300 hover:bg-theme-300/50 px-4 py-2 rounded-lg'>Checkout</Link>
                             </div>
                         </div>
                     </div>

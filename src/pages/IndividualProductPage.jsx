@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { CartContext } from '../context/cart';
 import { ProductContext } from '../context/products';
+import ScrollToTop from '../utils/ScrollToTop'
 
 import BreadCrumbs from '../components/BreadCrumbs';
 import 'swiper/css';
@@ -52,7 +53,7 @@ export default function IndividualProductPage() {
 
         const fetchProduct = async () => {
             try {
-                const response = await fetch('/products.json'); // Ensure it's in public/
+                const response = await fetch('http://localhost:4000/products');
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
                 const data = await response.json();
@@ -75,7 +76,7 @@ export default function IndividualProductPage() {
         <>
             <BreadCrumbs items={[{label: 'Home', href: '/'}, {label: 'Products', href: '/products'}, {label: product?.title}]} />
             <div>
-                <div className='max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-6 mx-auto'>
+                <div className='max-w-4xl md:max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-6 mx-auto'>
                     {isLoading && (
                         <div className='flex justify-center'>
 

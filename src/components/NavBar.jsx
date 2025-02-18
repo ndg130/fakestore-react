@@ -1,11 +1,15 @@
 import { useState, useContext, useEffect } from 'react'
 import { FaBars, FaShoppingBag, FaSearch } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/cart';
 import { HiMiniXMark } from "react-icons/hi2";
 import { ProductContext } from '../context/products';
 
 export default function NavBar() {
+
+    const withoutSidebarRoutes = ["/dashboard"];
+    const { pathname } = useLocation();
 
     const { products } = useContext(ProductContext);
     const { getCartQuantity, toggleSideCart } = useContext(CartContext);
@@ -47,6 +51,8 @@ export default function NavBar() {
         console.log('searchResults:',searchResults)
 
     }, [searchTerm])
+
+    if (withoutSidebarRoutes.some((item)=> pathname.includes(item))) return null;
 
     return (
         <>
@@ -128,14 +134,14 @@ export default function NavBar() {
                         </button>
                     </div>
                     <div className='w-3/5 h-full'>
-                        <Link to={'/'} className='flex items-center justify-center gap-2 text-2xl font-bold text-white font-heading'>FakeStore <FaShoppingBag className='text-2xl min-w-5 text-theme-400'/></Link>
+                        <Link to={'/'} className='flex items-center justify-center gap-2 text-2xl font-bold text-white font-heading'>FakeStore <FaShoppingBag className='text-2xl min-w-5 text-theme-100'/></Link>
                     </div>
                     <div className='w-1/5 flex gap-x-2 sm:gap-x-4 justify-end items-center'>
                         <button 
                             className='cursor-pointer flex items-center justify-center'
                             onClick={() => {setSearchVisible(searchVisible => !searchVisible)}}
                         >
-                            <FaSearch className='text-xl text-theme-500 hover:text-theme-400'/>
+                            <FaSearch className='text-xl text-theme-700 hover:text-theme-300'/>
                         </button>
                         <button className="bg-theme-green w-10 h-10 cursor-pointer rounded-lg flex items-center relative justify-center" onClick={() => {toggleSideCart()}}>
                             <FaShoppingBag className='text-3xl text-theme-500' />
@@ -150,7 +156,7 @@ export default function NavBar() {
                             type="search" 
                             placeholder="Search..." 
                             autoFocus="autofocus" 
-                            className="w-full text-theme-dark transition focus:outline-none focus:border-transparent p-2 appearance-none leading-normal text-xl lg:text-2xl" 
+                            className="w-full text-theme-900 transition focus:outline-none focus:border-transparent p-2 appearance-none leading-normal text-xl lg:text-2xl" 
                             onChange={handleUpdate}
                         />
                         {searchResults.length > 0 && (
@@ -159,15 +165,15 @@ export default function NavBar() {
                                     <Link 
                                         key={product.id} 
                                         to={`/products/${product.id}`}
-                                        className='rounded-lg shadow-sm px-4 py-2 w-[300px] min-w-[200px] border-2 border-theme-yellow hover:border-theme-blue cursor-pointer'
+                                        className='rounded-lg shadow-sm px-4 py-2 w-[300px] min-w-[200px] border-2 border-theme-100 hover:border-theme-blue cursor-pointer'
                                         onClick={()=>{
                                             setSearchVisible(false)
                                             setSearchTerm("");
                                         }}
                                     >  
                                         <img src={product.images[0]} />
-                                        <h3 className='text-base font-semibold mt-2'>{product.title}</h3>
-                                        <p>£{product.price}</p>
+                                        <h3 className='text-base font-semibold mt-2 text-theme-900'>{product.title}</h3>
+                                        <p className='text-theme-800'>£{product.price}</p>
                                     </Link>
                                 ))}
                             </div>                            
@@ -184,9 +190,9 @@ export default function NavBar() {
                         className='cursor-pointer flex items-center justify-center rounded-full absolute top-2 right-2'
                         onClick={() => {setMobileMenuOpen(mobileMenuOpen => !mobileMenuOpen)}}
                     >
-                        <HiMiniXMark className='text-4xl text-theme-dark hover:text-theme-blue'/>
+                        <HiMiniXMark className='text-4xl text-theme-900 hover:text-theme-700'/>
                     </button>
-                    <nav className="flex justify-start h-full text-theme-dark">
+                    <nav className="flex justify-start h-full text-theme-900">
                         <ul className="flex flex-col gap-4 text-lg">
                             <li className='hover:underline'><Link to={'/products'}>Products</Link></li>
                             <li><Link to={'/products'} onClick={() => {setMobileMenuOpen(mobileMenuOpen => !mobileMenuOpen)}}>All</Link></li>

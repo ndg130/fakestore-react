@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { HiMiniXMark } from "react-icons/hi2";
+import { ProductContext } from '../context/products';
 
 export default function ProductAdmin() {
 
-    const [products, setProducts] = useState([])
+    const { products } = useContext(ProductContext);
     const [productsToDelete, setProductsToDelete] = useState([])
     const [formData, setFormData] = useState({
         title: "",
@@ -30,15 +31,6 @@ export default function ProductAdmin() {
         addProduct();
     };
 
-
-    const fetchProducts = () => {
-        fetch('https://api.escuelajs.co/api/v1/products')
-            .then(res => res.json())
-            .then(data => {
-                setProducts(data); // Update the product list
-            });
-    };
-
     const deleteProducts = (productArray) => {
 
         if (!Array.isArray(productArray) || productArray.length === 0) {
@@ -48,7 +40,7 @@ export default function ProductAdmin() {
 
         const deletePromises = productArray.map(itemId => {
 
-            return fetch(`https://api.escuelajs.co/api/v1/products/${itemId}`, {
+            return fetch(`http://localhost:4000/products`, {
                 method: 'DELETE', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,7 +58,7 @@ export default function ProductAdmin() {
 
         Promise.all(deletePromises)
             .then(() => {
-                fetchProducts();  
+                return;
             })
             .catch((error) => {
                 console.log('Error during deletion:', error)
@@ -100,15 +92,12 @@ export default function ProductAdmin() {
             const data = await response.json();
             console.log('Success:', data);
 
-            fetchProducts();
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+
 
     const toggleDeleteItem = (id) => {
         console.log('products to delete was:', productsToDelete);
@@ -123,53 +112,7 @@ export default function ProductAdmin() {
         });
     };
 
-    const resetCatalogue = async () => {
-        console.log('Resetting catalogue...');
-        try {
-            const response = await fetch('https://api.escuelajs.co/api/v1/products');
-            const data = await response.json();
-            let productIdArr = data.map(product => product.id);
 
-            //console.log(productIdArr);
-            await deleteProducts(productIdArr);
-
-            const response2 = await fetch('/products.json');
-            const data2 = await response2.json();
-            console.log(data2);
-
-            const addPromises = data2.map(product => {
-                return fetch(`https://api.escuelajs.co/api/v1/products`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: product.title,
-                        price: product.price,
-                        description: product.description,
-                        categoryId: Number(product.category.id), 
-                        images: Array.isArray(product.images) && product.images.length > 0 
-                            ? product.images 
-                            : product.images.split(',').map(url => url.trim())
-                    }),
-                })
-                .then(res => res.json())
-                .then(data => {
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.log('Error:', error);
-                })
-    
-            });
-
-            await Promise.all(addPromises);
-            console.log('Catalogue reset successfully!');
-
-        } catch (error){
-            console.error('Error: ', error);
-        }
-    }
 
     return (
         <div className='max-w-2xl sm:max-w-5xl lg:max-w-7xl mx-auto py-10 px-4'>
@@ -186,7 +129,7 @@ export default function ProductAdmin() {
                         return (
                             <li 
                                 key={index}
-                                className={`text-xs flex justify-between shadow-md ${isDeleted ? 'border-solid border-red-500 border-2' : ''}`}
+                                className={`bg-white text-xs flex justify-between shadow-md ${isDeleted ? 'border-solid border-red-500 border-2' : ''}`}
                             >
                                 <div className='w-full flex p-2 items-center border-r border-solid border-gray-300'>
                                     <h3 className='inline'>Title: {item.title.substring(0, 40)} | id: {item.id}</h3>                                
@@ -211,16 +154,6 @@ export default function ProductAdmin() {
                     className='px-4 py-2 rounded-lg cursor-pointer bg-red-500 text-white hover:bg-red-700'
                 >
                     Delete
-                </button>
-            </div>
-            <div className='mt-10'>
-                <h2 className='text-2xl font-semibold mb-3'>Reset product catalogue</h2>
-                <p className='mb-5'>Reset the product catalogue to it&apos;s original state.</p>
-                <button 
-                    onClick={() => {resetCatalogue()}}
-                    className='px-4 py-2 rounded-lg cursor-pointer bg-theme-green text-theme-dark hover:bg-theme-500'
-                >
-                    Reset
                 </button>
             </div>
             <div className='mt-10'>
@@ -317,7 +250,7 @@ export default function ProductAdmin() {
                     <div>
                     <button
                         type="submit"
-                        className="px-4 py-2 rounded-lg cursor-pointer bg-theme-green text-dark hover:bg-theme-green/90"
+                        className="px-4 py-2 rounded-lg cursor-pointer bg-green-500 text-white hover:bg-green-500/90"
                     >
                         Add Product
                     </button>
