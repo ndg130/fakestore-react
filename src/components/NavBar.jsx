@@ -25,7 +25,7 @@ export default function NavBar() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('/categories.json'); // Ensure the correct path
+                const response = await fetch(import.meta.env.VITE_CATEGORIES_SERVER); // Ensure the correct path
                 if (!response.ok) throw new Error('Failed to fetch categories');
                 const data = await response.json();
                 setCategories(data);
@@ -199,7 +199,7 @@ export default function NavBar() {
                             {categories.length > 0 && 
                                 categories.map(category => (
                                     <li key={category.id}>
-                                        <Link to={`/category/${category.id}/${category.name.charAt(0).toLowerCase() + category.name.slice(1)}`} onClick={() => {setMobileMenuOpen(mobileMenuOpen => !mobileMenuOpen)}} className="capitalize hover:underline hover:text-theme-dark">
+                                        <Link to={`/category/${category.name.charAt(0).toLowerCase() + category.name.slice(1)}`} onClick={() => {setMobileMenuOpen(mobileMenuOpen => !mobileMenuOpen)}} className="capitalize hover:underline hover:text-theme-dark">
                                             {category.name}
                                         </Link>
                                     </li>

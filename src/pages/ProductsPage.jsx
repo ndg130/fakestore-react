@@ -9,7 +9,7 @@ export default function ProductsPage() {
     const { toggleSideCart } = useContext(CartContext);
     const { products, sortPriceAscending, sortPriceDescending } = useContext(ProductContext);
     const [sortOrder, setSortOrder] = useState("");
-
+    console.log("Product Server:", import.meta.env.VITE_PRODUCTS_SERVER);
 
     useEffect(() => {
         

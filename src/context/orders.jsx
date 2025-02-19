@@ -9,7 +9,7 @@ export const OrdersProvider = ({ children }) => {
 
     const fetchOrders = async () => {
         try {
-            const response = await fetch('http://localhost:4001/orders');
+            const response = await fetch(import.meta.env.VITE_ORDERS_SERVER);
             if(!response.ok){
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }

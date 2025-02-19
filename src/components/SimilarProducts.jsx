@@ -11,24 +11,32 @@ import 'swiper/css/pagination';
 export default function SimilarProducts() {
 
     const { id } = useParams();
-    const { products } = useContext(ProductContext);
+    const { products, fetchProducts } = useContext(ProductContext);
     
     const [isLoading, setIsLoading] = useState(true);
     const [category, setCategoryId] = useState(null);
     const [similarProducts, setSimilarProducts] = useState([]);
     
+    useEffect(() => {
+        fetchProducts
+    }, []);
 
     useEffect(() => {
 
-        const product = products.filter((item) => item.id === Number(id));
-        if(product){
-            setCategoryId(product[0].category.id);
+        const product = products.find((item) => item.id === Number(id));
+
+        if(product && product.category){
+            setCategoryId(product.category.id);
+            setIsLoading(false);
+        } else {
+            console.error('Product or category not found');
+            setIsLoading(false);
         }
     
     }, [id, products]);
 
     useEffect(() => {
-        if(category){
+        if(category !== null){
             const filtered = products.filter(product => product.category.id === category);
             setSimilarProducts(filtered);
             setIsLoading(false);
@@ -40,10 +48,11 @@ export default function SimilarProducts() {
         <section className='col-span-2 mt-20 bg-none'>
             <div className='max-w-7xl mx-auto py-5'>
                 <h2 className='text-2xl md:text-3xl lg:text-4xl font-semibold text-theme-900 mb-10'>Similar products you may be interested in</h2>
-                {isLoading && (
+                {isLoading ? (
                     <p>Loading similar products...</p>
-                )}
-                {!isLoading && (
+                ) : similarProducts.length === 0 ? (
+                    <p>No similar products found.</p>
+                ) : (
                     <Swiper 
                         modules={[Pagination]}
                         slidesPerView={2}

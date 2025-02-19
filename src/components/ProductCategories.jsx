@@ -7,7 +7,7 @@ export default function ProductCategories() {
     const [error, setError] = useState(null);
     const fetchCategories = async () => {
         try {
-            const response = await fetch('./categories.json');
+            const response = await fetch(import.meta.env.VITE_CATEGORIES_SERVER);
             if (!response.ok){
                 throw new Error('Failed to fetch categories');
             }
@@ -32,14 +32,12 @@ export default function ProductCategories() {
                 {categories.length > 0 ? (
                     <div className='overflow-x-auto flex gap-x-5'>
                         {categories.map((item, index) => (
-                            <Link key={index} to={`/category/${item.id}/${item.name.toLowerCase()}`} className="overflow-hidden relative min-w-[200px] group">
+                            <Link key={index} to={`/category/${item.name.toLowerCase()}`} className="overflow-hidden relative min-w-[200px] group">
                                 <img src={`${item.image}`} alt="" className='group-hover:scale-110 transform transition-transform duration-500 ease-linear'/>
                                 <div className='absolute bottom-0 left-0 px-2 py-2 bg-theme-900/50 w-full text-white font-semibold'>
                                   <h3 className='text-lg'>{item.name}</h3>  
                                 </div>
                             </Link>
-                            
-                            
                         ))}
                     </div>
                 ) : (

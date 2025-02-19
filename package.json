@@ -9,10 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "products-server": "json-server --watch ./public/products.json --port 4000",
-    "orders-server": "json-server --watch ./public/orders.json --port 4001"
+    "orders-server": "json-server --watch ./public/orders.json --port 4001",
+    "categories-server": "json-server --watch ./public/categories.json --port 4002"
 
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",

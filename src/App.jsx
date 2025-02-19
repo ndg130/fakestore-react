@@ -16,6 +16,8 @@ import AdminProducts from './pages/Admin/AdminProducts'
 import AdminOrders from './pages/Admin/AdminOrders'
 import NotFound from './pages/NotFound'
 import AdminSingleOrder from './pages/Admin/AdminSingleOrder'
+import AdminAddProduct from './pages/Admin/AdminAddProduct'
+import ScrollToTop from './utils/ScrollToTop'
 function App() {
 
     useEffect(() => {
@@ -24,6 +26,7 @@ function App() {
 
     return (
         <>
+            <ScrollToTop />
             <div className="min-h-screen bg-theme-400 text-gray-900">
                 <NavBar/>
                 <SideCart/>
@@ -38,13 +41,14 @@ function App() {
                             element={<IndividualProductPage />} 
                         />
                                                 <Route 
-                            path="/category/:id/:title" 
+                            path="/category/:title" 
                             element={<CategoryPage />} 
                         />
                         <Route path="/basket" element={<Basket />} />
                         <Route path='/checkout' element={<Checkout />} />
                         <Route path='/dashboard' element={<Dashboard />} />
                         <Route path='/dashboard/products' element={<AdminProducts />} />
+                        <Route path='/dashboard/products/add' element={<AdminAddProduct />} />
                         <Route path='/dashboard/orders' element={<AdminOrders />} />
                         <Route path='/dashboard/orders/:id' element={<AdminSingleOrder />} />
                         <Route path="/product-admin" element={<ProductAdmin />} />

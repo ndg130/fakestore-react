@@ -53,7 +53,7 @@ export default function IndividualProductPage() {
 
         const fetchProduct = async () => {
             try {
-                const response = await fetch('http://localhost:4000/products');
+                const response = await fetch(import.meta.env.VITE_PRODUCTS_SERVER);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
                 const data = await response.json();
