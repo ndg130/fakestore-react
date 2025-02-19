@@ -7,8 +7,7 @@ export const ProductProvider = ({ children }) => {
 
     const [products, setProducts] = useState([]);
     const fetchProducts = () => {
-        const localEndpoint = './products.json';
-        const apiEndpoint = 'https://api.escuelajs.co/api/v1/products';
+        const localEndpoint = import.meta.env.VITE_PRODUCTS_SERVER;
         fetch(localEndpoint)
             .then(res => res.json())
             .then(data => {

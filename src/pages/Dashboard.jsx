@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Sidebar from '../components/Admin/Sidebar'
 import { Link } from 'react-router-dom'
 import { ProductContext } from '../context/products'
@@ -7,8 +7,15 @@ import { OrdersContext } from '../context/orders'
 
 export default function Dashboard() {
 
-    const { products } = useContext(ProductContext);
+    const { products, fetchProducts } = useContext(ProductContext);
     const { orders } = useContext(OrdersContext);
+
+    useEffect(() => {
+        if(products.length === 0){
+            console.log('fetching products for loading');
+            fetchProducts();
+        }
+    }, []);
     
     return (
         <div className='relative flex flex-col lg:flex-row h-full min-h-[calc(100vh-64px)] lg:min-h-screen'>

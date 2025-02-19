@@ -6,15 +6,43 @@ import { ProductContext } from '../context/products';
 import { useParams } from 'react-router-dom';
 export default function CategoryPage() {
 
-    const { id, title } = useParams();
-    const { products, setProducts, sortPriceAscending, sortPriceDescending } = useContext(ProductContext);
+    const { title } = useParams();
+    const { products, sortPriceAscending, sortPriceDescending } = useContext(ProductContext);
     
+    const [id, setId] = useState(null);
     const [sortOrder, setSortOrder] = useState("");
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     const [categoryProducts, setCategoryProducts] = useState([]);
 
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch(import.meta.env.VITE_CATEGORIES_SERVER);
+            if (!response.ok){
+                throw new Error('Failed to fetch categories');
+            }
+            const data = await response.json();
+            
+            const category = data.find(category => category.name.toLowerCase() == title.toLowerCase());
+            setId(Number(category.id));
+
+        } catch (error) {
+            setError(error.message);
+            console.error('Error fetching categories:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
-        if (products.length > 0) {
+        fetchCategories();
+    }, [])
+
+    useEffect(() => {
+        if (id !== null && products.length > 0) {
+            console.log("Filtering products for category id:", id);
             const filteredProducts = products.filter(product => Number(product.category.id) === Number(id));
+            console.log("Filtered products:", filteredProducts);
             setCategoryProducts(filteredProducts);
         }
     }, [id, products]);
