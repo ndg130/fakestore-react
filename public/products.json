@@ -5,20 +5,16 @@
       "title": "Majestic Mountain Graphic T-Shirt",
       "price": 44,
       "description": "Elevate your wardrobe with this stylish black t-shirt featuring a striking monochrome mountain range graphic. Perfect for those who love the outdoors or want to add a touch of nature-inspired design to their look, this tee is crafted from soft, breathable fabric ensuring all-day comfort. Ideal for casual outings or as a unique gift, this t-shirt is a versatile addition to any collection.",
+      "category": {
+        "id": 1,
+        "name": "Clothes",
+        "image": "https://i.imgur.com/QkIa5tT.jpeg"
+      },
       "images": [
         "https://i.imgur.com/QkIa5tT.jpeg",
         "https://i.imgur.com/jb5Yu0h.jpeg",
         "https://i.imgur.com/UlxxXyG.jpeg"
       ],
-      "creationAt": "2025-02-03T13:43:24.000Z",
-      "updatedAt": "2025-02-03T13:43:24.000Z",
-      "category": {
-        "id": 1,
-        "name": "Clothes",
-        "image": "https://i.imgur.com/QkIa5tT.jpeg",
-        "creationAt": "2025-02-03T13:43:24.000Z",
-        "updatedAt": "2025-02-03T13:43:24.000Z"
-      },
       "quantity": 10
     },
     {
@@ -374,7 +370,7 @@
         "creationAt": "2025-02-03T13:43:24.000Z",
         "updatedAt": "2025-02-03T13:43:24.000Z"
       },
-      "quantity": 10
+      "quantity": 8
     },
     {
       "id": "19",

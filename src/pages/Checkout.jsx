@@ -31,11 +31,11 @@ export default function Checkout() {
 
     // Step Three state
     const [showStepThree, setShowStepThree] = useState(false);
-    const [stepThreeComplete, setStepThreeComplete] = useState(false);
 
     const [orderLoading, setOrderLoading] = useState(false);
     const [outOfStockItems, setOutOfStockItems] = useState([]);
-    const [orderSuccessful, setOrderSuccessful] = useState(false);
+    const [showPendingModal, setShowPendingModal] = useState(false);
+    const [orderSuccessful, setOrderSuccessful] = useState(null);
 
 
     const handleChange = (e) => {
@@ -67,6 +67,7 @@ export default function Checkout() {
     };
 
     const handlePlaceOrder = async () => {
+        setShowPendingModal(true)
         setOrderLoading(true);
 
         const orderData = {
@@ -80,12 +81,12 @@ export default function Checkout() {
         };
 
 
-        setOutOfStockItems([]);
+        setOutOfStockItems([]); // reset out of stock items array
 
         const newOutOfStockItems = [];
 
         cartItems.forEach((item) => {
-            const product = products.find((productItem) => item.id === productItem.id);
+            const product = products.find((productItem) => Number(item.id) === Number(productItem.id));
             
             if(!product){
                 console.log('Cant find product:', item.id);
@@ -93,6 +94,7 @@ export default function Checkout() {
             }
             if(product.quantity < item.quantity){
                 console.log(`Not enough stock for ${product.title}`);
+                console.log('stock level:', product.quantity);
                 newOutOfStockItems.push(product);
             } else {
                 console.log(`Enough stock for ${product.title}`);
@@ -106,7 +108,7 @@ export default function Checkout() {
         if (newOutOfStockItems.length === 0) {
 
             try {
-                const response = await fetch('http://localhost:4001/orders', {
+                const response = await fetch(import.meta.env.VITE_ORDERS_SERVER, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(orderData)
@@ -119,8 +121,8 @@ export default function Checkout() {
 
                 await updateStock();
 
-                clearCart();
-                setOrderSuccessful(true);                
+                setOrderSuccessful(true);
+                setOrderLoading(false);         
 
             } catch (error) {
                 console.error("Error placing order:", error);
@@ -131,21 +133,27 @@ export default function Checkout() {
                 setShowStepOne(true);
                 setShowStepTwo(false);
                 setShowStepThree(false);
+                clearCart();
             }
+        } else {
+            setOrderSuccessful(false);
+            setOrderLoading(false);         
+
         }
+
     }
 
     const updateStock = async () => {
         try {
             for (const item of cartItems) {
                 // Fetch current product stock
-                const productResponse = await fetch(`http://localhost:4001/products/${item.id}`);
+                const productResponse = await fetch(`${import.meta.env.VITE_PRODUCTS_SERVER}/${item.id}`);
                 const product = await productResponse.json();
     
                 if (product) {
                     const updatedStock = product.quantity - item.quantity;
     
-                    await fetch(`http://localhost:4001/products/${item.id}`, {
+                    await fetch(`${import.meta.env.VITE_PRODUCTS_SERVER}/${item.id}`, {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ quantity: updatedStock })
@@ -323,7 +331,6 @@ export default function Checkout() {
                                         <div className="pt-3 mt-5 border-t border-solid border-theme-100">
                                             <h3 className="text-2xl font-semibold text-green-600">Order successful</h3>                                            
                                         </div>
-
                                     )}
                                 </div>
                                 </>
@@ -365,6 +372,42 @@ export default function Checkout() {
                     </ul>
                 </div>
             </div>
+            <div className={`relative z-[9999] ${showPendingModal ? 'block' : 'hidden'}`} aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+                <div className="fixed inset-0 bg-gray-500/75 transition-opacity pointer-events-none" aria-hidden="true"></div>
+
+                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    
+                    <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+
+                        <div className="flex justify-center items-center">
+                            <div className="mt-4 text-center sm:mt-0 sm:text-left">
+                                <h3 className={`text-lg font-semibold text-gray-900 text-center flex items-center justify-center gap-x-3 ${orderLoading ? 'visible' : 'invisible'}`} id="modal-title">Placing order <ClipLoader size={20}/></h3>
+                                <div className={`mt-4 ${orderSuccessful !== null ? 'visible' : 'invisible'}`}>
+                                    <p className={`text-xl font-semibold text-center text-green-600 mb-8 ${orderSuccessful ? 'block' : 'hidden'}`}>Order successful.</p>
+                                    <Link to={'/'} className={`text-sm bg-theme-300 hover:bg-theme-300/90 px-4 py-3 rounded-lg ${orderSuccessful ? 'block' : 'hidden'}`}>Back to homepage</Link>                                    
+                                    <p className={`text-xl font-semibold text-center text-red-600 mb-8 ${!orderSuccessful ? 'block' : 'hidden'}`}>Order failed. Items out of stock:</p>
+                                    {outOfStockItems.length > 0 && !orderSuccessful && (
+                                        <>                                            
+                                            <ol className="list-decimal list-inside">
+                                                {outOfStockItems.map((item) => (
+                                                    <li key={item.id}>
+                                                        {item.title} - Qty: {cartItems.find(cartItem => cartItem.id === item.id).quantity} | Stock available: {products.find(product => item.id === product.id)?.quantity ?? 0}
+                                                    </li>
+                                                ))}
+                                            </ol>
+                                            <p className="mt-5 text-center">Return to <Link to={`/basket`} className="underline font-semibold">basket</Link> and amend your items</p>
+                                        </>
+                                    )}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div> 
         </>
     )
 }
