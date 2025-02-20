@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Sidebar from '../../components/Admin/Sidebar';
 import { OrdersContext } from '../../context/orders';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,8 @@ export default function AdminOrders() {
     const { orders } = useContext(OrdersContext);
 
     return (
-        <div className='relative flex flex-col lg:flex-row h-full min-h-[calc(100vh-64px)] lg:min-h-screen'>
-            <Sidebar activePage="products"/>
+        <div className='relative flex flex-col lg:flex-row h-full min-h-[calc(100vh-64px)] lg:min-h-screen overflow-auto md:overflow-hidden'>
+            <Sidebar activePage="orders"/>
             <div className='flex-1 lg:ml-72 max-w-2xl sm:max-w-5xl lg:max-w-7xl w-full h-full py-10 px-4'>
                     <div className="sm:flex sm:items-center">
                         <div className="sm:flex-auto">

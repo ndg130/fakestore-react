@@ -6,13 +6,19 @@ export const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
 
     const [products, setProducts] = useState([]);
-    const fetchProducts = () => {
+    const fetchProducts = async () => {
         const localEndpoint = import.meta.env.VITE_PRODUCTS_SERVER;
-        fetch(localEndpoint)
-            .then(res => res.json())
-            .then(data => {
-                setProducts(data); // Update the product list
-            });
+        try {
+            const response = await fetch(localEndpoint);
+            if(!response.ok){
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            setProducts(data);            
+        } catch (error) {
+            console.error('Failed to fetch orders:', error);
+        }
+
     };
 
     const sortPriceAscending = () => {

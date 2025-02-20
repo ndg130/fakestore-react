@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Sidebar from '../../components/Admin/Sidebar';
 import { OrdersContext } from '../../context/orders';
 import { ProductContext } from '../../context/products';

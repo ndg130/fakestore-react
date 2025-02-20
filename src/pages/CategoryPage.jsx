@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import BreadCrumbs from '../components/BreadCrumbs';
 import ProductCard from '../components/ProductCard';
 
@@ -35,8 +35,10 @@ export default function CategoryPage() {
     }
 
     useEffect(() => {
-        fetchCategories();
-    }, [])
+        if (title) {
+            fetchCategories();
+        }
+    }, [title])
 
     useEffect(() => {
         if (id !== null && products.length > 0) {
