@@ -422,7 +422,7 @@ export default function AdminEditProduct() {
                     </div>
                     </div>
                 </div>
-                </div> 
+            </div> 
         </div>
     )
 }
