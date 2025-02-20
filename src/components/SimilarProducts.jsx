@@ -23,7 +23,7 @@ export default function SimilarProducts() {
 
     useEffect(() => {
 
-        const product = products.find((item) => item.id === Number(id));
+        const product = products.find((item) => Number(item.id) === Number(id));
 
         if(product && product.category){
             setCategoryId(product.category.id);

@@ -1,14 +1,18 @@
-import React, { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Sidebar from '../../components/Admin/Sidebar';
 import { ProductContext } from '../../context/products';
 import { Link } from 'react-router-dom';
 
 export default function AdminProducts() {
 
-    const { products } = useContext(ProductContext);
+    const { products, fetchProducts } = useContext(ProductContext);
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     return (
-        <div className='relative flex flex-col lg:flex-row h-full min-h-[calc(100vh-64px)] lg:min-h-screen'>
+        <div className='relative flex flex-col lg:flex-row h-full min-h-[calc(100vh-64px)] lg:min-h-screen w-full overflow-auto md:overflow-hidden'>
             <Sidebar activePage="products"/>
             <div className='flex-1 lg:ml-72 max-w-2xl sm:max-w-5xl lg:max-w-7xl w-full h-full py-10 px-4'>
                     <div className="sm:flex sm:items-center">

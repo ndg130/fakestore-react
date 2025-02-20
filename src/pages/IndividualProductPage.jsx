@@ -57,7 +57,7 @@ export default function IndividualProductPage() {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
                 const data = await response.json();
-                const matchedProduct = data.find(item => item.id === Number(id));
+                const matchedProduct = data.find(item => Number(item.id) === Number(id));
 
                 if (!matchedProduct) throw new Error('Product not found');
                 

@@ -67,7 +67,7 @@ export default function NavBar() {
                         {categories.length > 0 && 
                             categories.map(category => (
                                 <li key={category.id}>
-                                    <Link to={`/category/${category.id}/${category.name.charAt(0).toLowerCase() + category.name.slice(1)}`} className="capitalize hover:underline hover:text-theme-dark">
+                                    <Link to={`/category/${category.name.charAt(0).toLowerCase() + category.name.slice(1)}`} className="capitalize hover:underline hover:text-theme-dark">
                                         {category.name}
                                     </Link>
                                 </li>
